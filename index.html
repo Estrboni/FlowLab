@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlowLab | SignFlow - Plan Estratégico CORE</title>
+    <!-- Fuentes para un look tecnológico y profesional -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* ========================================================================= */
+        /* === VARIABLES, ESTILOS BASE Y EFECTOS NEÓN/GLITCH === */
+        /* ========================================================================= */
+        :root {
+            --color-fondo: #000000; /* Negro puro */
+            --color-contenedor: #0A0A0A; /* Negro profundo para separación */
+            --color-neon-rojo: #FF004C; /* Rojo de acento principal */
+            --color-neon-blanco: #E0FFFF; /* Blanco con toque cian para efecto 'neon' */
+            --color-texto-principal: var(--color-neon-blanco);
+            --color-texto-secundario: #999999; /* Gris suave para el cuerpo */
+            --fuente-titulo: 'Orbitron', sans-serif;
+            --fuente-cuerpo: 'Share Tech Mono', monospace;
+            --transition-speed: 0.5s;
+        }
+
+        body {
+            font-family: var(--fuente-cuerpo);
+            color: var(--color-texto-principal);
+            background-color: var(--color-fondo);
+            line-height: 1.7;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* Títulos estilizados con fuente Orbitron */
+        h1, h2, h3, h4 {
+            font-family: var(--fuente-titulo);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+        
+        /* Efecto de Neón principal (Blanco/Cian) */
+        .neon-text-main {
+            color: var(--color-neon-blanco);
+            text-shadow: 0 0 5px rgba(224, 255, 255, 0.5), 0 0 10px rgba(224, 255, 255, 0.3);
+        }
+        /* Efecto de Neón Rojo */
+        .neon-text-red {
+            color: var(--color-neon-rojo);
+            text-shadow: 0 0 6px var(--color-neon-rojo), 0 0 15px rgba(255, 0, 76, 0.4);
+        }
+
+        /* Contenedor de Vistas (Simulación de Ventana de Aplicación) */
+        .view-section {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 120px 1.5rem 80px 1.5rem;
+            min-height: calc(100vh - 80px); 
+            display: none; 
+            opacity: 0;
+            transform: translateY(20px);
+            /* Transición dramática de aparición */
+            transition: opacity var(--transition-speed) ease-in-out, transform var(--transition-speed) ease-in-out;
+        }
+        .view-section.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Bloques de Contenido Formal/Detalle */
+        .detail-card {
+            background-color: var(--color-contenedor);
+            border: 2px solid var(--color-neon-rojo);
+            box-shadow: 0 0 20px rgba(255, 0, 76, 0.15);
+            transition: all 0.4s ease-out;
+            border-radius: 8px;
+        }
+        .detail-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--color-neon-blanco);
+            box-shadow: 0 0 30px rgba(224, 255, 255, 0.2);
+        }
+
+        /* Botón de Alto Impacto */
+        .cta-button {
+            background-color: var(--color-neon-rojo);
+            color: var(--color-fondo);
+            font-family: var(--fuente-titulo);
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            transition: all 0.3s ease-in-out;
+            border-radius: 4px;
+            text-shadow: 1px 1px 0 rgba(0,0,0,0.5);
+        }
+        .cta-button:hover {
+            background-color: var(--color-neon-blanco);
+            color: var(--color-fondo);
+            text-shadow: none;
+            box-shadow: 0 0 35px var(--color-neon-blanco);
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        /* Estilo de la Navegación Activa */
+        .nav-link.active {
+            color: var(--color-neon-rojo);
+            font-weight: 700;
+            text-shadow: 0 0 8px var(--color-neon-rojo);
+            border-bottom: 2px solid var(--color-neon-rojo);
+            transform: scale(1.02);
+        }
+        .nav-link {
+            transition: all 0.3s;
+            padding-bottom: 0.5rem;
+        }
+        .nav-link:hover {
+            color: var(--color-neon-blanco);
+            text-shadow: 0 0 5px var(--color-neon-blanco);
+        }
+        
+        /* Celdas de Datos Estilizadas */
+        .data-cell-item {
+            padding: 1rem;
+            border: 1px solid rgba(255, 0, 76, 0.1);
+            background-color: #050505;
+            transition: background-color 0.2s;
+            border-radius: 4px;
+        }
+        .data-cell-item:hover {
+            background-color: rgba(255, 0, 76, 0.08);
+            border-color: rgba(224, 255, 255, 0.2);
+        }
+
+        /* Icono SVG de Neón */
+        .icon-neon {
+            fill: none;
+            stroke: var(--color-neon-rojo);
+            stroke-width: 1.5;
+            transition: stroke 0.3s, filter 0.3s;
+            filter: drop-shadow(0 0 3px var(--color-neon-rojo));
+        }
+
+        /* SVG para la sección de IA/ML */
+        .ai-stack-svg {
+            fill: var(--color-neon-rojo);
+            transition: fill 0.3s;
+            filter: drop-shadow(0 0 5px var(--color-neon-rojo));
+        }
+    </style>
+</head>
+<body class="bg-black">
+
+    <!-- BARRA DE NAVEGACIÓN (HEADER) - Estructura SPA Fija -->
+    <header class="sticky top-0 bg-black/95 shadow-lg shadow-neon-rojo/10 border-b border-neon-rojo/50 z-50 backdrop-blur-sm">
+        <div class="max-w-7xl mx-auto flex justify-between items-center px-4 sm:px-6 lg:px-8 h-20">
+            <a href="#home" id="logo-link" class="text-3xl font-extrabold tracking-tight" onclick="showView('#home')">
+                <span class="text-4xl neon-text-red font-['Orbitron']">F</span><span class="text-3xl neon-text-main font-['Orbitron']">LOWLAB</span>
+            </a>
+            <nav id="main-nav" class="hidden md:block">
+                <ul class="flex space-x-6 lg:space-x-10 text-xs font-light uppercase">
+                    <li><a href="#home" class="nav-link text-gray-400" data-view="home">Identidad</a></li>
+                    <li><a href="#proposito" class="nav-link text-gray-400" data-view="proposito">Propuesta de Valor</a></li>
+                    <li><a href="#filosofia" class="nav-link text-gray-400" data-view="filosofia">Filosofía Corp.</a></li>
+                    <li><a href="#arquitectura" class="nav-link text-gray-400" data-view="arquitectura">Infraestructura IA</a></li>
+                    <li><a href="#producto" class="nav-link text-gray-400" data-view="producto">SignFlow App</a></li>
+                </ul>
+            </nav>
+            <button id="menu-toggle" class="md:hidden text-2xl neon-text-red">&#9776;</button>
+        </div>
+        <!-- Menú Móvil Desplegable (se inyecta aquí con JS) -->
+    </header>
+
+    <!-- CONTENEDOR PRINCIPAL DE VISTAS -->
+    <main>
+
+        <!-- VISTA 1: IDENTIDAD (HOME) -->
+        <section id="view-home" class="view-section active text-center">
+            <h1 class="text-6xl sm:text-7xl font-black mb-6 neon-text-main">
+                <span class="neon-text-red">FLOWLAB</span> CORE DOCUMENTATION
+            </h1>
+            <h2 class="text-xl sm:text-2xl mb-16 text-gray-500 font-bold tracking-widest">
+                SISTEMA DE GESTIÓN DE CONOCIMIENTO V4.0 // ACCESO AUTORIZADO
+            </h2>
+            
+            <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+                <!-- Ilustración (Concepto de Laboratorio/Conexión) -->
+                <div class="detail-card p-6 rounded-lg flex flex-col justify-center items-center order-first md:order-last">
+                    <svg class="icon-neon" width="100" height="100" viewBox="0 0 24 24">
+                        <path d="M12 2L2 12l10 10 10-10L12 2zM12 6.5L16.5 11 12 15.5 7.5 11 12 6.5z"/>
+                        <path stroke-dasharray="2 4" d="M22 12h-3M5 12H2M12 22v-3M12 5V2"/>
+                    </svg>
+                    <h3 class="text-xl neon-text-red mt-4 text-center">CONEXIÓN LÓGICA</h3>
+                    <p class="text-xs text-gray-700 mt-2">Diagrama de flujo de conocimiento.</p>
+                </div>
+
+                <!-- Tarjeta de Identidad -->
+                <div class="detail-card p-6 rounded-lg col-span-1 md:col-span-2">
+                    <h3 class="text-2xl neon-text-red mb-4 flex items-center">
+                        <svg class="icon-neon mr-3" width="24" height="24" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.38 0 2.5 1.12 2.5 2.5S13.38 10 12 10 9.5 8.88 9.5 7.5 10.62 5 12 5zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4.03-3.08 6-3.08 1.98 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+                        IDENTIDAD CORPORATIVA
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-gray-400">
+                        <div class="data-cell-item">
+                            <span class="neon-text-main block font-bold mb-1">Organización:</span> FlowLab
+                        </div>
+                        <div class="data-cell-item">
+                            <span class="neon-text-main block font-bold mb-1">Slogan:</span> Conectando mundos, expandiendo la comprensión.
+                        </div>
+                        <div class="data-cell-item col-span-1 sm:col-span-2">
+                            <span class="neon-text-main block font-bold mb-1">Tipo de Ingeniería:</span> Software, Inteligencia Artificial (IA) y Visión por Computadora (Deep Learning para patrones de movimiento).
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-20">
+                <a href="#proposito" class="cta-button py-3 px-12 text-md" data-view="proposito">ANALIZAR PROPUESTA DE VALOR</a>
+            </div>
+        </section>
+
+        <!-- VISTA 2: NATURALEZA Y PROPÓSITO -->
+        <section id="view-proposito" class="view-section bg-contenedor">
+            <h2 class="text-center text-4xl mb-12 font-bold neon-text-red flex items-center justify-center">
+                <svg class="icon-neon mr-3" width="30" height="30" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/><path d="M12 6v6l4 2"/></svg>
+                II. PROPUESTA DE VALOR & INNOVACIÓN PRINCIPAL
+            </h2>
+            <div class="grid lg:grid-cols-3 gap-8">
+                
+                <div class="lg:col-span-2 detail-card p-8 rounded-lg">
+                    <h3 class="text-2xl neon-text-main mb-4 flex items-center">
+                        <svg class="icon-neon mr-3" width="24" height="24" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                        PROBLEMA Y DESCRIPCIÓN GENERAL
+                    </h3>
+                    <p class="text-gray-500 mb-4 text-sm">
+                        FlowLab es una EdTech enfocada en la inclusión total. Nuestro primer producto, SignFlow, aborda una brecha crítica en la comunicación.
+                    </p>
+                    <p class="text-lg neon-text-red font-bold mt-4">Problema a Resolver:</p>
+                    <p class="text-sm text-gray-400">
+                        La dificultad de la comunidad sorda para comprender y aplicar el significado cultural y complejo del idioma (modismos, frases hechas) cuando aprenden una segunda lengua (e.g., inglés). Las herramientas actuales solo ofrecen traducciones literales o superficiales.
+                    </p>
+                </div>
+
+                <div class="detail-card p-8 rounded-lg">
+                    <h3 class="text-2xl neon-text-main mb-4 flex items-center">
+                        <svg class="icon-neon mr-3" width="24" height="24" viewBox="0 0 24 24"><path d="M13 3h-2v18h2V3zM3 13V5h2v8H3zm16-4V5h2v4h-2zM7 21V9h2v12H7zm10 0V13h2v8h-2z"/></svg>
+                        PROPUESTA CENTRAL
+                    </h3>
+                    <p class="text-sm text-gray-400">
+                        Proporcionar una plataforma de aprendizaje que traduce **modismos del inglés** al lenguaje de señas (ASL, LSE, etc.) y ofrece una funcionalidad de práctica inmersiva que valida la precisión gramatical de la seña del usuario en tiempo real.
+                    </p>
+                </div>
+            </div>
+
+            <div class="mt-12 detail-card p-8 rounded-lg text-center">
+                <h3 class="text-3xl neon-text-red mb-4 flex items-center justify-center">
+                    <svg class="icon-neon mr-3" width="30" height="30" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1010 10A10 10 0 0012 2zm-1 15v-4H8V9h4V6l5 5-5 5z"/></svg>
+                    INNOVACIÓN PRINCIPAL: CORRECCIÓN EN TIEMPO REAL
+                </h3>
+                <p class="text-xl neon-text-main mb-6">
+                    Mecanismo de Verificación Basado en Deep Learning.
+                </p>
+                <p class="text-gray-400 max-w-4xl mx-auto text-sm">
+                    El motor de SignFlow utiliza algoritmos de Visión por Computadora (VpC) para analizar y corregir la **forma, orientación, posición y movimiento** de la seña ejecutada por el usuario. Actúa como un **tutor personal de lenguaje de señas** utilizando inferencia instantánea lograda mediante TensorFlow Lite en el dispositivo móvil.
+                </p>
+                
+            </div>
+            
+            <div class="text-center mt-20">
+                <a href="#filosofia" class="cta-button py-3 px-12 text-md" data-view="filosofia">EXPLORAR FILOSOFÍA Y VALORES</a>
+            </div>
+        </section>
+
+        <!-- VISTA 3: FILOSOFÍA EMPRESARIAL -->
+        <section id="view-filosofia" class="view-section bg-fondo">
+            <h2 class="text-center text-4xl mb-12 font-bold neon-text-main flex items-center justify-center">
+                <svg class="icon-neon mr-3" width="30" height="30" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-1 16h2v-6h-2v6zm0-8h2V7h-2v2z"/></svg>
+                III. MISIÓN, VISIÓN Y VALORES CORE
+            </h2>
+            <div class="grid lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+                
+                <!-- Misión y Visión -->
+                <div class="detail-card p-8 rounded-lg">
+                    <h3 class="text-2xl neon-text-red mb-4">MISIONES ESTRATÉGICAS</h3>
+                    <div class="mb-6 data-cell-item">
+                        <p class="text-lg neon-text-main mb-1 font-bold">MISIÓN // Objetivo Principal</p>
+                        <p class="text-sm text-gray-400">
+                            Eliminar las brechas de comunicación global al desarrollar soluciones tecnológicas accesibles que promuevan la fluidez y la comprensión cultural en el lenguaje de señas.
+                        </p>
+                    </div>
+                    <div class="data-cell-item">
+                        <p class="text-lg neon-text-main mb-1 font-bold">VISIÓN // Horizonte Estratégico</p>
+                        <p class="text-sm text-gray-400">
+                            Ser la plataforma de referencia global y el estándar de oro para la traducción de vocabulario complejo y el aprendizaje práctico del lenguaje de señas, impulsado por IA.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Valores -->
+                <div class="detail-card p-8 rounded-lg">
+                    <h3 class="text-2xl neon-text-red mb-4">VALORES FUNDAMENTALES</h3>
+                    <ul class="space-y-3 text-sm">
+                        <li class="data-cell-item flex justify-between items-center bg-transparent p-3">
+                            <span class="neon-text-main font-bold w-1/3">INCLUSIÓN:</span> <span class="text-gray-400 w-2/3 text-right">Diseño universal y accesible para la comunidad sorda y oyente.</span>
+                        </li>
+                        <li class="data-cell-item flex justify-between items-center bg-transparent p-3">
+                            <span class="neon-text-main font-bold w-1/3">INNOVACIÓN:</span> <span class="text-gray-400 w-2/3 text-right">Vanguardia tecnológica constante, centrada en IA y VpC.</span>
+                        </li>
+                        <li class="data-cell-item flex justify-between items-center bg-transparent p-3">
+                            <span class="neon-text-main font-bold w-1/3">PRECISIÓN:</span> <span class="text-gray-400 w-2/3 text-right">Rigor lingüístico validado por expertos de la comunidad sorda.</span>
+                        </li>
+                        <li class="data-cell-item flex justify-between items-center bg-transparent p-3">
+                            <span class="neon-text-main font-bold w-1/3">EMPATÍA:</span> <span class="text-gray-400 w-2/3 text-right">Desarrollo guiado por las necesidades reales de los usuarios.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="text-center mt-20">
+                <a href="#arquitectura" class="cta-button py-3 px-12 text-md" data-view="arquitectura">VER ARQUITECTURA TÉCNICA</a>
+            </div>
+        </section>
+
+        <!-- VISTA 4: ARQUITECTURA Y FUNCIONAMIENTO -->
+        <section id="view-arquitectura" class="view-section bg-contenedor">
+            <h2 class="text-center text-4xl mb-12 font-bold neon-text-red flex items-center justify-center">
+                <svg class="icon-neon mr-3" width="30" height="30" viewBox="0 0 24 24"><path d="M4 10h16v4H4zm0 6h16v4H4zM4 4h16v4H4z"/></svg>
+                IV. INFRAESTRUCTURA TÉCNICA Y ESTRUCTURA ORGANIZACIONAL
+            </h2>
+            
+            <div class="grid lg:grid-cols-3 gap-8 mb-12">
+                <!-- Tecnología -->
+                <div class="detail-card p-6 rounded-lg lg:col-span-2">
+                    <h3 class="text-2xl neon-text-main mb-4 flex items-center">
+                        <svg class="icon-neon mr-3" width="24" height="24" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6z"/></svg>
+                        STACK TECNOLÓGICO Y PROCESAMIENTO
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-gray-400">
+                        <div class="data-cell-item">
+                            <span class="neon-text-red block font-bold mb-1">Móvil (Frontend):</span> React Native (Base unificada iOS/Android).
+                        </div>
+                        <div class="data-cell-item">
+                            <span class="neon-text-red block font-bold mb-1">IA/ML (Entrenamiento):</span> TensorFlow / PyTorch (Desarrollo de modelos complejos).
+                        </div>
+                        <div class="data-cell-item">
+                            <span class="neon-text-red block font-bold mb-1">Corrección en Tiempo Real:</span> TensorFlow Lite (Inferencia optimizada en el dispositivo).
+                        </div>
+                        <div class="data-cell-item">
+                            <span class="neon-text-red block font-bold mb-1">Nube y BBDD:</span> Google Cloud Platform (GCP) y Firestore (Escalabilidad y datos NoSQL).
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modelo de Negocio -->
+                <div class="detail-card p-6 rounded-lg">
+                    <h3 class="text-2xl neon-text-main mb-4 flex items-center">
+                        <svg class="icon-neon mr-3" width="24" height="24" viewBox="0 0 24 24"><path d="M11 20H6V4h5v16zm2-16h5v16h-5V4zm-2 16h-2v-4h2v4zM15 8h2V6h-2v2zM7 8h2V6H7v2zM15 16h2v-2h-2v2zM7 16h2v-2H7v2z"/></svg>
+                        MODELO DE NEGOCIO
+                    </h3>
+                    <p class="text-xl neon-text-red mb-2 font-bold">FREEMIUM (Adopción / Recurrencia)</p>
+                    <div class="text-sm text-gray-400 space-y-2">
+                        <p class="data-cell-item">
+                            <span class="neon-text-main font-bold">Básico (Gratuito):</span> Acceso a la traducción básica de vocabulario y práctica limitada de señas.
+                        </p>
+                        <p class="data-cell-item">
+                            <span class="neon-text-main font-bold">Premium (Suscripción):</span> Modismos culturales avanzados, práctica ilimitada, rutas de aprendizaje personalizadas y certificaciones de fluidez.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Talentos y Procesos -->
+            <div class="grid lg:grid-cols-2 gap-8">
+                <div class="detail-card p-6 rounded-lg">
+                    <h3 class="text-2xl neon-text-red mb-4 flex items-center">
+                        <svg class="icon-neon mr-3" width="24" height="24" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                        TALENTO HUMANO (ESTRUCTURA)
+                    </h3>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li class="data-cell-item"><span class="neon-text-main font-bold">Tech Core (50%):</span> CTO, Desarrolladores Full-Stack, Ingenieros de IA/VpC.</li>
+                        <li class="data-cell-item"><span class="neon-text-main font-bold">Linguistics & Product (25%):</span> Lingüistas Expertos en L.S., Diseñador UX/UI.</li>
+                        <li class="data-cell-item"><span class="neon-text-main font-bold">Strategy & Growth (25%):</span> CEO, Marketing Digital.</li>
+                    </ul>
+                </div>
+                <div class="detail-card p-6 rounded-lg">
+                    <h3 class="text-2xl neon-text-red mb-4 flex items-center">
+                        <svg class="icon-neon mr-3" width="24" height="24" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"/></svg>
+                        PROCESOS CORE (AGILE)
+                    </h3>
+                    <ol class="list-decimal list-inside space-y-2 text-sm text-gray-400">
+                        <li class="data-cell-item">Adquisición de Datos y Etiquetado Ético.</li>
+                        <li class="data-cell-item">Entrenamiento y Optimización Continua del Modelo de IA (Iteración).</li>
+                        <li class="data-cell-item">Validación Comunitaria (Ajustes lingüísticos con la comunidad sorda).</li>
+                        <li class="data-cell-item">Desarrollo Ágil (Ciclos Scrum de 2 semanas).</li>
+                    </ol>
+                </div>
+            </div>
+            
+            <div class="text-center mt-20">
+                <a href="#producto" class="cta-button py-3 px-12 text-md" data-view="producto">DETALLES DEL PRODUCTO SIGNFLOW</a>
+            </div>
+        </section>
+        
+        <!-- VISTA 5: PRODUCTO Y FUNCIONALIDAD -->
+        <section id="view-producto" class="view-section bg-fondo">
+            <h2 class="text-center text-4xl mb-12 font-bold neon-text-main flex items-center justify-center">
+                <svg class="icon-neon mr-3" width="30" height="30" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1010 10A10 10 0 0012 2zm0 18a8 8 0 118-8 8 8 0 01-8 8zm-4-4h8V8H8v8zm2-6h4v4h-4v-4z"/></svg>
+                V. SIGNFLOW: FUNCIONAMIENTO Y IMPACTO
+            </h2>
+            
+            <div class="grid lg:grid-cols-3 gap-8">
+                <!-- Funcionamiento -->
+                <div class="detail-card p-6 rounded-lg lg:col-span-2">
+                    <h3 class="text-2xl neon-text-red mb-4 flex items-center">
+                        <svg class="icon-neon mr-3" width="24" height="24" viewBox="0 0 24 24"><path d="M17.21 16.03l-4.5-4.5c-.2-.2-.5-.3-.8-.3-.3 0-.6.1-.8.3l-4.5 4.5c-.4.4-.4 1 0 1.4.4.4 1 .4 1.4 0L12 14.17l3.09 3.09c.4.4 1 .4 1.4 0 .4-.4.4-1 0-1.4zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
+                        PROTOTIPO DIGITAL Y FLUJO DE TRABAJO
+                    </h3>
+                    <p class="text-sm text-gray-400 mb-4">
+                        SignFlow opera como un laboratorio de fluidez. El usuario introduce el concepto o modismo, la aplicación lo traduce al L.S., y luego activa el modo "Lab" de práctica con corrección activa.
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-gray-400">
+                        <div class="data-cell-item">
+                            <span class="neon-text-main block font-bold mb-1">Prototipo Visual:</span> Interfaz dividida: (1) Cámara del usuario capturando la seña, (2) Esqueleto de Keypoints generado por IA en tiempo real.
+                        </div>
+                        <div class="data-cell-item">
+                            <span class="neon-text-main block font-bold mb-1">Métrica de Corrección:</span> El modelo analiza la posición de **14 puntos clave de la mano y el cuerpo**. El feedback es granular: "Abre más el dedo índice" o "Tu velocidad de movimiento fue inconsistente."
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Clientes/Impacto -->
+                <div class="detail-card p-6 rounded-lg">
+                    <h3 class="text-2xl neon-text-red mb-4 flex items-center">
+                        <svg class="icon-neon mr-3" width="24" height="24" viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.67 3.2 8.57 7.5 9.67V17h-2v-3h2v-1c0-1.28.84-2.45 2.05-2.85C11.5 9.77 13 9.49 13 8.5c0-.55-.22-1-.75-1s-.75.45-.75 1h-1.5c0-1.66 1.34-3 3-3s3 1.34 3 3c0 1.25-.97 2.68-2.5 3.32V14h3v3h-3v4.67c4.3-.97 7.5-5 7.5-9.67z"/></svg>
+                        IMPACTO Y CLIENTES
+                    </h3>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li class="data-cell-item"><span class="neon-text-main font-bold">Clientes Ideales:</span> Estudiantes Serios de L.S., Familiares Oyentes, Instituciones B2B (capacitación corporativa).</li>
+                        <li class="data-cell-item"><span class="neon-text-main font-bold">Objetivo de Fluidez:</span> Aumentar la fluidez promedio de los estudiantes en un 40% en 6 meses mediante la práctica corregida.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Omisión de Estrategia de Stand y Pitch Comercial -->
+            
+            <div class="text-center mt-20">
+                <a href="#home" class="cta-button py-3 px-12 text-md" data-view="home">INICIAR DE NUEVO: IDENTIDAD</a>
+            </div>
+        </section>
+
+    </main>
+    <!-- FIN CONTENEDOR PRINCIPAL DE VISTAS -->
+
+
+    <!-- FOOTER FORMAL -->
+    <footer class="bg-black border-t border-neon-rojo/50 py-10 text-center text-sm text-gray-700">
+        <p class="neon-text-main mb-4 text-sm font-bold tracking-wider">
+            FLOWLAB TECHNOLOGIES: INGENIERÍA PARA LA ACCESIBILIDAD
+        </p>
+        <p class="text-xs text-gray-800">© 2025 FlowLab. Arquitectura de Sistema: CORE-V4.0 (CYBER LAB)</p>
+    </footer>
+
+    <!-- Script JavaScript para Enrutamiento SPA y Transiciones -->
+    <script>
+        // Función para mostrar la vista correspondiente al hash
+        function showView(viewId) {
+            const targetId = viewId ? viewId.replace('#', '') : 'home';
+            
+            // 1. Ocultar y preparar todas las vistas para la transición
+            document.querySelectorAll('.view-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // 2. Esperar un breve momento para forzar el repintado y la transición de salida (si la hubiera)
+            setTimeout(() => {
+                const targetSection = document.getElementById(`view-${targetId}`);
+                if (targetSection) {
+                    // Mostrar la vista solicitada
+                    targetSection.classList.add('active');
+                    // Scroll suave al inicio de la nueva vista
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else {
+                    // Fallback
+                    document.getElementById('view-home').classList.add('active');
+                }
+
+                // 3. Actualizar el estado 'active' de la navegación
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('data-view') === targetId) {
+                        link.classList.add('active');
+                    }
+                });
+            }, 50); // Tiempo suficiente para que se registre la transición
+
+        }
+
+        // Manejar el cambio de hash en la URL
+        function handleHashChange() {
+            const hash = window.location.hash || '#home';
+            showView(hash);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            handleHashChange();
+            window.addEventListener('hashchange', handleHashChange);
+            
+            // Manejar clics de navegación y CTAs para actualizar el hash
+            document.querySelectorAll('a[data-view]').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault(); 
+                    // Esto actualiza el hash y automáticamente dispara handleHashChange()
+                    window.location.hash = link.getAttribute('href').replace('#', '');
+                });
+            });
+
+            // Lógica para el menú móvil
+            const menuToggle = document.getElementById('menu-toggle');
+            const header = document.querySelector('header');
+            const mainNav = document.getElementById('main-nav');
+            
+            menuToggle.addEventListener('click', () => {
+                mainNav.classList.toggle('hidden');
+                // Estilos para hacer el menú desplegable en móvil
+                if (!mainNav.classList.contains('hidden')) {
+                    // Crea un div para el menú que abarque todo el ancho
+                    mainNav.classList.add('absolute', 'top-full', 'left-0', 'w-full', 'bg-black/95', 'py-4', 'shadow-2xl', 'shadow-neon-rojo/20');
+                    mainNav.querySelector('ul').classList.add('flex-col', 'space-y-3', 'items-center', 'px-4');
+                } else {
+                    // Remueve estilos
+                    mainNav.classList.remove('absolute', 'top-full', 'left-0', 'w-full', 'bg-black/95', 'py-4', 'shadow-2xl', 'shadow-neon-rojo/20');
+                    mainNav.querySelector('ul').classList.remove('flex-col', 'space-y-3', 'items-center', 'px-4');
+                }
+            });
+
+            // Cerrar el menú después de hacer clic en un enlace (solo en móvil)
+            mainNav.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (window.innerWidth < 768) {
+                        mainNav.classList.add('hidden');
+                        mainNav.classList.remove('absolute', 'top-full', 'left-0', 'w-full', 'bg-black/95', 'py-4', 'shadow-2xl', 'shadow-neon-rojo/20');
+                        mainNav.querySelector('ul').classList.remove('flex-col', 'space-y-3', 'items-center', 'px-4');
+                    }
+                });
+            });
+
+            console.log("FlowLab Cyber-Lab V4: Inicialización de enrutador SPA y estilos de alto impacto completada.");
+        });
+    </script>
+</body>
+</html>
